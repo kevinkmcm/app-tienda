@@ -15,16 +15,14 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {
-  Producto,
-  Pedido,
-} from '../models';
+import {Pedido, Producto} from '../models';
 import {ProductoRepository} from '../repositories';
 
 export class ProductoPedidoController {
   constructor(
-    @repository(ProductoRepository) protected productoRepository: ProductoRepository,
-  ) { }
+    @repository(ProductoRepository)
+    protected productoRepository: ProductoRepository,
+  ) {}
 
   @get('/productos/{id}/pedido', {
     responses: {
@@ -61,11 +59,12 @@ export class ProductoPedidoController {
           schema: getModelSchemaRef(Pedido, {
             title: 'NewPedidoInProducto',
             exclude: ['id'],
-            optional: ['productoId']
+            optional: ['id_producto'],
           }),
         },
       },
-    }) pedido: Omit<Pedido, 'id'>,
+    })
+    pedido: Omit<Pedido, 'id'>,
   ): Promise<Pedido> {
     return this.productoRepository.pedido(id).create(pedido);
   }
@@ -88,7 +87,8 @@ export class ProductoPedidoController {
       },
     })
     pedido: Partial<Pedido>,
-    @param.query.object('where', getWhereSchemaFor(Pedido)) where?: Where<Pedido>,
+    @param.query.object('where', getWhereSchemaFor(Pedido))
+    where?: Where<Pedido>,
   ): Promise<Count> {
     return this.productoRepository.pedido(id).patch(pedido, where);
   }
@@ -103,7 +103,8 @@ export class ProductoPedidoController {
   })
   async delete(
     @param.path.string('id') id: string,
-    @param.query.object('where', getWhereSchemaFor(Pedido)) where?: Where<Pedido>,
+    @param.query.object('where', getWhereSchemaFor(Pedido))
+    where?: Where<Pedido>,
   ): Promise<Count> {
     return this.productoRepository.pedido(id).delete(where);
   }
