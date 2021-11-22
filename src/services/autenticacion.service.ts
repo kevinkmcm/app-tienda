@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 export class AutenticacionService {
   constructor(
     @repository(PersonaRepository)
-    public PersonaRepository: PersonaRepository,
+    public personaRepository: PersonaRepository,
   ) {}
 
   /*
@@ -30,7 +30,7 @@ export class AutenticacionService {
 
   IdentificarPersona(usuario: string, clave: string) {
     try {
-      const p = this.PersonaRepository.findOne({
+      const p = this.personaRepository.findOne({
         where: {
           correo: usuario,
           clave: clave,
@@ -41,7 +41,7 @@ export class AutenticacionService {
       } else {
         return false;
       }
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -52,10 +52,10 @@ export class AutenticacionService {
           id: persona.id,
           correo: persona.correo,
           nombre: persona.nombres + ' ' + persona.pedidos,
+          rol:persona.roles,
         },
       },
-      Llaves.claveJWT,
-    );
+      Llaves.claveJWT);
     return token;
   }
 

@@ -37,13 +37,15 @@ export class PersonaController {
     responses: {
       '200': {
         descripcion: 'identificacion de usuarios',
-      },
-    },
+      }
+    }
   })
-  async identificarPersona(@requestBody() credenciales: Credenciales) {
+  async identificarPersona(
+    @requestBody() credenciales: Credenciales
+    ){
     const p = await this.servicioAutenticacion.IdentificarPersona(
       credenciales.usuario,
-      credenciales.clave,
+      credenciales.clave
     );
     if (p) {
       const token = this.servicioAutenticacion.GenerarTokenJWT(p);
@@ -51,9 +53,9 @@ export class PersonaController {
         datos: {
           nombre: p.nombres,
           correo: p.correo,
-          id: p.id,
+          id: p.id
         },
-        tk: token,
+        tk: token
       };
     } else {
       throw new HttpErrors[401]('los datos ingresados son invalidos');

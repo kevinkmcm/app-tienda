@@ -28,6 +28,7 @@ export class ProductoController {
     public productoRepository: ProductoRepository,
   ) {}
 
+
   @post('/productos')
   @response(200, {
     description: 'Producto model instance',
